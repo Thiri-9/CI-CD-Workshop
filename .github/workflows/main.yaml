@@ -57,6 +57,12 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_TOKEN }}
         
+        - id: docker_meta
+          uses: docker/metadata-action@v4.4.0
+          with:
+            images: thiri9/ci-cd_workshop
+            tags: ${{ github.sha }}
+
         # Build and push the image
         - name: Build and push
           uses: docker/build-push-action@v5
@@ -64,12 +70,6 @@ jobs:
           with:
             push: true
             tags: ${{ steps.docker_meta.outputs.tags }}
-
-        - id: docker_meta
-          uses: docker/metadata-action@v4.4.0
-          with:
-            images: thiri9/ci-cd_workshop
-            tags: ${{ github.sha }}
 
         # Sign image with a key
         - name: Sign image with a key
