@@ -20,4 +20,5 @@ jobs:
                 Matriculation: A0290837U
                 Email: e1327868@u.nus.edu
                 GitHub: https://github.com/Thiri-9/CI-CD-Workshop.git
-              SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+              SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+              SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
