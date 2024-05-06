@@ -28,6 +28,20 @@ jobs:
         - name: Check version!
           run: cosign version
 
+        # Slack Notification
+        - name: Slack Notification
+          if: ${{ success() }}
+          uses: rtCamp/action-slack-notify@v2
+          env:
+              SLACK_TITLE: "Image build and signed"
+              SLACK_MESSAGE: |
+                Name: Thiri Naing
+                Matriculation: A0290837U
+                Email: e1327868@u.nus.edu
+                GitHub: https://github.com/Thiri-9/CI-CD-Workshop.git
+              SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+              SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
         # Get the requirements to build the image
         - name: Set up QEMU
           id: docker
@@ -49,14 +63,24 @@ jobs:
           id: build-and-push
           with:
             push: true
-            tags: thiri9/ci-cd_workshop:${{ github.sha }}
+            tags: ${{ steps.docker_meta.outputs.tags }}
+
+        - id: docker_meta
+          uses: docker/metadata-action@v4.4.0
+          with:
+            images: thiri9/ci-cd_workshop
+            tags: ${{ github.sha }}
 
         # Sign image with a key
         - name: Sign image with a key
           run: |
-            cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
+            images=""
+            for tag in ${TAGS}; do
+              images+="${tag}@${DIGEST}"
+            done
+            cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${images}
           env:
-            TAGS: thiri9/ci-cd_workshop:${{ github.sha }}
+            TAGS: ${{ steps.docker_meta.outputs.tags }}
             COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
             COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
             DIGEST: ${{ steps.build-and-push.outputs.digest }}
@@ -71,20 +95,6 @@ jobs:
               output: 'text.txt'
               severity: CRITICAL
               exit-code: 1
-
-        # Slack Notification
-        - name: Slack Notification
-          if: ${{ success() }}
-          uses: rtCamp/action-slack-notify@v2
-          env:
-              SLACK_TITLE: "Image build and signed"
-              SLACK_MESSAGE: |
-                Name: Thiri Naing
-                Matriculation: A0290837U
-                Email: e1327868@u.nus.edu
-                GitHub: https://github.com/Thiri-9/CI-CD-Workshop.git
-              SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-              SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
         # Slack Notification
         # - name: Slack Notification
