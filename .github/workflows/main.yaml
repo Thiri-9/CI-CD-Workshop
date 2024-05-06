@@ -7,17 +7,17 @@ on:
 jobs:
   slackNotification:
     name: Slack Notification
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps: 
-      - uses: actions/checkout@v3
+        - uses: actions/checkout@v3
 
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
-        env:
-            SLACK_TITLE: "Image build and signed"
-            SLACK_MESSAGE: |
-              Name: Thiri Naing
-              Matriculation: A0290837U
-              Email: e1327868@u.nus.edu
-              GitHub: https://github.com/Thiri-9/CI-CD-Workshop.git
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        - name: Slack Notification
+          uses: rtCamp/action-slack-notify@v2
+          env:
+              SLACK_TITLE: "Image build and signed"
+              SLACK_MESSAGE: |
+                Name: Thiri Naing
+                Matriculation: A0290837U
+                Email: e1327868@u.nus.edu
+                GitHub: https://github.com/Thiri-9/CI-CD-Workshop.git
+              SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
