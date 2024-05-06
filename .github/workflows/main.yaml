@@ -10,9 +10,10 @@ jobs:
     if: (!contains(github.event.head_commit.message, '#NORUN'))
     runs-on: ubuntu-latest
     steps: 
+        # Checkout Code
         - uses: actions/checkout@v3
         
-        # Scan Vunerability
+        # Scan Vulnerability
         - name: Run Trivy vulnerabilities scanner in fs mode
           uses: aquasecurity/trivy-action@master
           with:
@@ -23,16 +24,26 @@ jobs:
               severity: CRITICAL
               exit-code: 1
 
+        # # Slack Notification
+        # - name: Slack Notification
+        #   if: ${{ success() }}
+        #   uses: rtCamp/action-slack-notify@v2
+        #   env:
+        #       SLACK_TITLE: "Image build and signed"
+        #       SLACK_MESSAGE: |
+        #         Name: Thiri Naing
+        #         Matriculation: A0290837U
+        #         Email: e1327868@u.nus.edu
+        #         GitHub: https://github.com/Thiri-9/CI-CD-Workshop.git
+        #       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+        #       SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
         # Slack Notification
         - name: Slack Notification
-          if: ${{ success() }}
+          if: ${{ failure() }}
           uses: rtCamp/action-slack-notify@v2
           env:
               SLACK_TITLE: "Image build and signed"
-              SLACK_MESSAGE: |
-                Name: Thiri Naing
-                Matriculation: A0290837U
-                Email: e1327868@u.nus.edu
-                GitHub: https://github.com/Thiri-9/CI-CD-Workshop.git
+              SLACK_MESSAGE: "Failed scan report - Thiri Naing"
               SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
               SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
