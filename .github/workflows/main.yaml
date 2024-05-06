@@ -2,7 +2,7 @@ name: CI_CD-Workshop
 on:
   push:
     branches:
-    - master
+    - v[0-9]+.[0-9]+
 
 jobs:
   slackNotification:
@@ -10,7 +10,19 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
         - uses: actions/checkout@v3
+        
+        # Scan Vunerability
+        - name: Run Trivy vulnerabilities scanner in fs mode
+          uses: aquasecurity/trivy-action@master
+          with:
+              scan-type: 'fs'
+              ignore-unfixed: true
+              format: 'table'
+              output: 'test.txt'
+              severity: CRITICAL
+              exit-code: 1
 
+        # Slack Notification
         - name: Slack Notification
           uses: rtCamp/action-slack-notify@v2
           env:
