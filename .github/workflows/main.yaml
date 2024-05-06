@@ -9,7 +9,7 @@ jobs:
     name: Slack Notification
     run-on: ubuntu-latest
     steps: 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
