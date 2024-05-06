@@ -23,7 +23,7 @@ jobs:
               scan-type: 'fs'
               ignore-unfixed: true
               format: 'table'
-              output: 'test.txt'
+              output: 'text.txt'
               severity: HIGH
               exit-code: 1
 
@@ -59,6 +59,7 @@ jobs:
             slack_token: ${{ secrets.SLACK_BOT_TOKEN }}
             channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
             content: 'file content'
-            file_name: 'fail-report.txt'
-            file_path: ${{ github.workspace }}/fail-report.txt
+            file_type: 'text'
+            file_name: 'text.txt'
+            file_path: ${{ github.workspace }}/text.txt
             initial_comment: 'Post by Thiri Naing'
