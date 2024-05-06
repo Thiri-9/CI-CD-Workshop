@@ -24,6 +24,7 @@ jobs:
           with:
             cosign-release: 'v2.2.4'
 
+        # Check Cosign version
         - name: Check version!
           run: cosign version
 
@@ -48,13 +49,7 @@ jobs:
           id: build-and-push
           with:
             push: true
-            tags: ${{ steps.docker_meta.outputs.tags }}
-
-        - id: docker_meta
-          uses: docker/metadata-action@v4.4.0
-          with:
-            images: thiri9/ci-cd_workshop
-            tags: ${{ github.sha }}
+            tags: thiri9/ci-cd_workshop:${{ github.sha }}
 
         # Sign image with a key
         - name: Sign image with a key
