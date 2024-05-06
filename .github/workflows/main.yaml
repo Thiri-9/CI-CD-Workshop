@@ -54,11 +54,11 @@ jobs:
         # Upload file report
         - name: file upload
           if: ${{ failure() }}
-          uses: MeilCli/slack-upload-file@v3
+          uses: MeilCli/slack-upload-file@v4
           with:
-            slack_token: ${{ secrets.SLACK_TOKEN }}
+            slack_token: ${{ secrets.SLACK_BOT_TOKEN }}
             channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
             content: 'file content'
-            file_type: 'text'
+            file_name: 'fail-report.txt'
             file_path: 'fail-report.txt'
             initial_comment: 'Post by Thiri Naing'
