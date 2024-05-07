@@ -103,6 +103,7 @@ jobs:
         #   env:
         #       SLACK_TITLE: "Image build and signed"
         #       SLACK_MESSAGE: "Failed scan report - Thiri Naing"
+        #       SLACK_COLOR: '#FF0000'
         #       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
         #       SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
