@@ -39,6 +39,7 @@ jobs:
         #         Matriculation: A0290837U
         #         Email: e1327868@u.nus.edu
         #         GitHub: https://github.com/Thiri-9/CI-CD-Workshop.git
+        #         Docker: https://hub.docker.com/repository/docker/thiri9/ci-cd_workshop/general
         #       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
         #       SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
@@ -118,4 +119,4 @@ jobs:
             file_type: 'text'
             file_name: 'text.txt'
             file_path: ${{ github.workspace }}/text.txt
-            initial_comment: 'Post by Thiri Naing'
+            initial_comment: 'Scan report by Thiri Naing'
